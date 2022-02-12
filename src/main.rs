@@ -1,11 +1,15 @@
+use crate::output::{MetricOutput, SimOutput};
 use crate::vehicles::{Car, Truck, VehicleTraits};
 
 mod environment;
+mod output;
 mod road_items;
 mod traits;
 mod vehicles;
 
 fn main() {
+    let sim_output: MetricOutput = MetricOutput {};
+
     let mut car: Car = Car {
         current_speed: 0.0,
         desired_speed: 65.0,
@@ -35,7 +39,7 @@ fn main() {
             println!(
                 "{} speed: {} mph",
                 vehicle.get_type(),
-                vehicle.get_current_speed()
+                sim_output.get_speed(*vehicle)
             );
         }
     }
