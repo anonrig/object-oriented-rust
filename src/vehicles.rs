@@ -1,5 +1,6 @@
 use crate::traits::DynamicRoadItemTraits;
 use derivative::Derivative;
+use std::cmp;
 
 static ACC_RATE: f32 = 3.5;
 static ACC_RATE_EMPTY: f32 = 2.5;
@@ -41,27 +42,25 @@ impl VehicleTraits for Car {
     fn get_type(&self) -> &str {
         "Car"
     }
+
     fn get_current_speed(&self) -> f32 {
         self.current_speed
     }
+
     fn get_desired_speed(&self) -> f32 {
         self.desired_speed
     }
 
     fn accelerate(&mut self, seconds_delta: f32) {
-        self.current_speed += ACC_RATE * seconds_delta * MPS_TO_MPH;
+        self.set_current_speed(self.current_speed + ACC_RATE * seconds_delta * MPS_TO_MPH);
     }
 
     fn decelerate(&mut self, seconds_delta: f32) {
-        self.current_speed -= DEC_RATE * seconds_delta * MPS_TO_MPH;
+        self.set_current_speed(self.current_speed - DEC_RATE * seconds_delta * MPS_TO_MPH)
     }
 
     fn set_current_speed(&mut self, speed: f32) {
-        self.current_speed = if self.current_speed <= speed {
-            speed.min(self.desired_speed)
-        } else {
-            speed.max(self.desired_speed)
-        }
+        self.current_speed = speed.min(self.desired_speed);
     }
 }
 
@@ -95,7 +94,7 @@ impl VehicleTraits for Truck {
         } else {
             ACC_RATE_FULL
         };
-        self.current_speed += constant * seconds_delta * MPS_TO_MPH;
+        self.set_current_speed(self.current_speed + constant * seconds_delta * MPS_TO_MPH);
     }
 
     fn decelerate(&mut self, seconds_delta: f32) {
@@ -104,14 +103,10 @@ impl VehicleTraits for Truck {
         } else {
             DEC_RATE_FULL
         };
-        self.current_speed -= constant * seconds_delta * MPS_TO_MPH;
+        self.set_current_speed(self.current_speed - constant * seconds_delta * MPS_TO_MPH);
     }
 
     fn set_current_speed(&mut self, speed: f32) {
-        self.current_speed = if self.current_speed <= speed {
-            speed.min(self.desired_speed)
-        } else {
-            speed.max(self.desired_speed)
-        }
+        self.current_speed = speed.min(self.desired_speed);
     }
 }
