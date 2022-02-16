@@ -37,9 +37,10 @@ fn main() {
         for vehicle in vehicles.iter_mut() {
             vehicle.update_speed(1.0);
             println!(
-                "{} speed: {} mph",
+                "{} speed: {} {}",
                 vehicle.get_type(),
-                sim_output.get_speed(*vehicle)
+                sim_output.get_speed(*vehicle),
+                sim_output.get_speed_unit()
             );
         }
     }
