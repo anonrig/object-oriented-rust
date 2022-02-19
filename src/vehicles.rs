@@ -1,6 +1,5 @@
 use crate::traits::DynamicRoadItemTraits;
 use derivative::Derivative;
-use std::cmp;
 
 static ACC_RATE: f32 = 3.5;
 static ACC_RATE_EMPTY: f32 = 2.5;
@@ -8,7 +7,6 @@ static ACC_RATE_FULL: f32 = 1.0;
 static DEC_RATE: f32 = 7.0;
 static DEC_RATE_EMPTY: f32 = 5.0;
 static DEC_RATE_FULL: f32 = 2.0;
-static MPS_TO_MPH: f32 = 2.237;
 
 pub trait VehicleTraits {
     fn get_type(&self) -> &str;
@@ -52,11 +50,11 @@ impl VehicleTraits for Car {
     }
 
     fn accelerate(&mut self, seconds_delta: f32) {
-        self.set_current_speed(self.current_speed + ACC_RATE * seconds_delta * MPS_TO_MPH);
+        self.set_current_speed(self.current_speed + ACC_RATE * seconds_delta);
     }
 
     fn decelerate(&mut self, seconds_delta: f32) {
-        self.set_current_speed(self.current_speed - DEC_RATE * seconds_delta * MPS_TO_MPH)
+        self.set_current_speed(self.current_speed - DEC_RATE * seconds_delta)
     }
 
     fn set_current_speed(&mut self, speed: f32) {
@@ -94,7 +92,7 @@ impl VehicleTraits for Truck {
         } else {
             ACC_RATE_FULL
         };
-        self.set_current_speed(self.current_speed + constant * seconds_delta * MPS_TO_MPH);
+        self.set_current_speed(self.current_speed + constant * seconds_delta);
     }
 
     fn decelerate(&mut self, seconds_delta: f32) {
@@ -103,7 +101,7 @@ impl VehicleTraits for Truck {
         } else {
             DEC_RATE_FULL
         };
-        self.set_current_speed(self.current_speed - constant * seconds_delta * MPS_TO_MPH);
+        self.set_current_speed(self.current_speed - constant * seconds_delta);
     }
 
     fn set_current_speed(&mut self, speed: f32) {

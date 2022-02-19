@@ -1,29 +1,44 @@
-use crate::output::{MetricOutput, SimOutput};
+use crate::output::OutputType;
 use crate::vehicles::{Car, Truck, VehicleTraits};
 
+mod constants;
 mod environment;
+mod gui;
 mod output;
 mod road_items;
 mod traits;
 mod vehicles;
 
+use clap::Parser;
+
+#[derive(Parser, Debug)]
+#[clap(author, version, about, long_about = None)]
+pub struct CommandLineArguments {
+    #[clap(arg_enum)]
+    output: OutputType,
+
+    #[clap(short, long)]
+    speed_limit: u16,
+}
+
 fn main() {
-    let sim_output: MetricOutput = MetricOutput {};
+    let arguments = CommandLineArguments::parse();
+    let gui = arguments.output.get_gui(arguments.speed_limit as f32);
 
     let mut car: Car = Car {
         current_speed: 0.0,
-        desired_speed: 65.0,
+        desired_speed: gui.get_speed_limit(),
     };
 
     let mut truck1: Truck = Truck {
         current_speed: 0.0,
-        desired_speed: 55.0,
+        desired_speed: gui.get_speed_limit(),
         load_weight: 4,
     };
 
     let mut truck2: Truck = Truck {
         current_speed: 0.0,
-        desired_speed: 55.0,
+        desired_speed: gui.get_speed_limit(),
         load_weight: 8,
     };
 
@@ -39,8 +54,8 @@ fn main() {
             println!(
                 "{} speed: {} {}",
                 vehicle.get_type(),
-                sim_output.get_speed(*vehicle),
-                sim_output.get_speed_unit()
+                gui.get_speed(*vehicle),
+                gui.get_speed_unit()
             );
         }
     }
