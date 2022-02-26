@@ -58,7 +58,11 @@ impl VehicleTraits for Car {
     }
 
     fn set_current_speed(&mut self, speed: f32) {
-        self.current_speed = speed.min(self.desired_speed);
+        if self.current_speed <= speed {
+            self.current_speed = speed.min(self.desired_speed)
+        } else {
+            self.current_speed = speed.max(self.desired_speed)
+        }
     }
 }
 
@@ -105,6 +109,10 @@ impl VehicleTraits for Truck {
     }
 
     fn set_current_speed(&mut self, speed: f32) {
-        self.current_speed = speed.min(self.desired_speed);
+        if self.current_speed <= speed {
+            self.current_speed = speed.min(self.desired_speed)
+        } else {
+            self.current_speed = speed.max(self.desired_speed)
+        }
     }
 }
