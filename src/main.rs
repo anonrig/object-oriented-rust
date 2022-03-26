@@ -1,62 +1,37 @@
-use crate::output::OutputType;
-use crate::vehicles::{Car, Truck, VehicleTraits};
+use crate::vehicles::{Car, VehicleTraits};
 
 mod constants;
+mod conversions;
 mod environment;
 mod gui;
-mod output;
+mod map;
+mod road;
 mod road_items;
+mod sui;
 mod traits;
 mod vehicles;
 
-use clap::Parser;
-
-#[derive(Parser, Debug)]
-#[clap(author, version, about, long_about = None)]
-pub struct CommandLineArguments {
-    #[clap(arg_enum)]
-    output: OutputType,
-
-    #[clap(short, long)]
-    speed_limit: u16,
-}
+use crate::constants::CHAR_MAP_SIZE;
+use crate::gui::{GUITraits, MetricGUI};
+use crate::map::Map;
+use crate::road::Heading;
+use crate::sui::{CharMatrix, ConsolePrint};
 
 fn main() {
-    let arguments = CommandLineArguments::parse();
-    let gui = arguments.output.get_gui(arguments.speed_limit as f32);
+    let console_print = ConsolePrint {};
+    let sim_input = MetricGUI {};
+    let mut matrix = CharMatrix::new();
+    let mut map = Map::new();
 
-    let mut car: Car = Car {
-        current_speed: 0.0,
-        desired_speed: gui.get_speed_limit(),
-    };
+    let uptown = sim_input.create_road("Uptown".to_string(), 0.180, 0.0, -0.09, Heading::North);
+    let crosstown =
+        sim_input.create_road("Crosstown".to_string(), 0.180, -0.09, 0.0, Heading::East);
 
-    let mut truck1: Truck = Truck {
-        current_speed: 0.0,
-        desired_speed: gui.get_speed_limit(),
-        load_weight: 4,
-    };
+    map.add_road(uptown);
+    map.add_road(crosstown);
+    map.print(&console_print, &mut matrix);
 
-    let mut truck2: Truck = Truck {
-        current_speed: 0.0,
-        desired_speed: gui.get_speed_limit(),
-        load_weight: 8,
-    };
-
-    let mut vehicles: Vec<&mut dyn VehicleTraits> = Vec::new();
-
-    vehicles.push(&mut car);
-    vehicles.push(&mut truck1);
-    vehicles.push(&mut truck2);
-
-    for _n in 1..11 {
-        for vehicle in vehicles.iter_mut() {
-            vehicle.update_speed(1.0);
-            println!(
-                "{} speed: {} {}",
-                vehicle.get_type(),
-                gui.get_speed(*vehicle),
-                gui.get_speed_unit()
-            );
-        }
+    for i in 0..CHAR_MAP_SIZE {
+        println!("{:?}", String::from_iter(&matrix.map[i]));
     }
 }

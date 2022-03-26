@@ -12,6 +12,7 @@ pub trait VehicleTraits {
     fn get_type(&self) -> &str;
     fn get_current_speed(&self) -> f32;
     fn get_desired_speed(&self) -> f32;
+    fn set_desired_speed(&mut self, speed: f32);
     fn accelerate(&mut self, seconds_delta: f32);
     fn decelerate(&mut self, seconds_delta: f32);
     fn set_current_speed(&mut self, speed: f32);
@@ -47,6 +48,10 @@ impl VehicleTraits for Car {
 
     fn get_desired_speed(&self) -> f32 {
         self.desired_speed
+    }
+
+    fn set_desired_speed(&mut self, speed: f32) {
+        self.desired_speed = speed
     }
 
     fn accelerate(&mut self, seconds_delta: f32) {
@@ -88,6 +93,9 @@ impl VehicleTraits for Truck {
     }
     fn get_desired_speed(&self) -> f32 {
         self.desired_speed
+    }
+    fn set_desired_speed(&mut self, speed: f32) {
+        self.desired_speed = speed
     }
 
     fn accelerate(&mut self, seconds_delta: f32) {
