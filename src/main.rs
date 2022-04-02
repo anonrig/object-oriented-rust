@@ -21,6 +21,7 @@ fn main() {
     let console_print = ConsolePrint {};
     let sim_input = MetricGUI {};
     let mut matrix = CharMatrix::new();
+    // let map = Map::create_from_json_file("src/resources/map.json".to_string());
     let mut map = Map::new();
 
     let uptown = sim_input.create_road("Uptown".to_string(), 0.180, 0.0, -0.09, Heading::North);
@@ -30,6 +31,7 @@ fn main() {
     map.add_road(uptown);
     map.add_road(crosstown);
     map.print(&console_print, &mut matrix);
+    // map.save_to_json("src/resources/output.json".to_string());
 
     for i in 0..CHAR_MAP_SIZE {
         println!("{:?}", String::from_iter(&matrix.map[i]));
