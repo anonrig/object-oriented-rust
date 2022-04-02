@@ -1,21 +1,29 @@
 use crate::sui::{CharMatrix, PrintDriver};
+use serde::{Deserialize, Serialize};
+use serde_repr::{Deserialize_repr, Serialize_repr};
 
 pub static mut NUMBER_OF_ROADS: i32 = 0;
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, Serialize_repr, Deserialize_repr, PartialEq)]
+#[repr(u8)]
 pub enum Heading {
-    North,
-    South,
-    East,
-    West,
+    North = 0,
+    South = 1,
+    East = 2,
+    West = 3,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Road {
+    #[serde(rename = "Name")]
     name: String,
+    #[serde(rename = "Length")]
     length: f32,
+    #[serde(rename = "XLocation")]
     x_location: f32,
+    #[serde(rename = "YLocation")]
     y_location: f32,
+    #[serde(rename = "Heading")]
     heading: Heading,
 }
 

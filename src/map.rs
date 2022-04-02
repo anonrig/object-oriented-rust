@@ -1,8 +1,10 @@
 use crate::road::Road;
 use crate::sui::{CharMatrix, PrintDriver};
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Map {
+    #[serde(rename = "Roads")]
     roads: Vec<Road>,
 }
 
