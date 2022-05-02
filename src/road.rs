@@ -19,11 +19,11 @@ pub struct Road {
     #[serde(rename = "Name")]
     name: String,
     #[serde(rename = "Length")]
-    length: f32,
+    length: f64,
     #[serde(rename = "XLocation")]
-    x_location: f32,
+    x_location: f64,
     #[serde(rename = "YLocation")]
-    y_location: f32,
+    y_location: f64,
     #[serde(rename = "Heading")]
     heading: Heading,
     #[serde(rename = "RoadItems")]
@@ -33,9 +33,9 @@ pub struct Road {
 impl Road {
     pub fn new(
         name: String,
-        length: f32,
-        x_location: f32,
-        y_location: f32,
+        length: f64,
+        x_location: f64,
+        y_location: f64,
         heading: Heading,
     ) -> Road {
         let road = Road {
@@ -54,15 +54,15 @@ impl Road {
         road
     }
 
-    pub fn get_length(&self) -> f32 {
+    pub fn get_length(&self) -> f64 {
         self.length
     }
 
-    pub fn get_x_location(&self) -> f32 {
+    pub fn get_x_location(&self) -> f64 {
         self.x_location
     }
 
-    pub fn get_y_location(&self) -> f32 {
+    pub fn get_y_location(&self) -> f64 {
         self.y_location
     }
 
@@ -76,5 +76,9 @@ impl Road {
 
     pub fn print(&self, driver: &dyn PrintDriver, matrix: &mut CharMatrix) {
         driver.print_road(self, matrix);
+    }
+
+    pub fn add_road_item(&mut self, item: Box<dyn RoadItemTraits>) {
+        self.road_items.push(item);
     }
 }

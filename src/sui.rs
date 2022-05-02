@@ -36,7 +36,7 @@ impl PrintDriver for ConsolePrint {
 
                 if x < CHAR_MAP_SIZE {
                     while distance < road_length {
-                        let y = (cc_y - distance as f32) as usize;
+                        let y = (cc_y - distance as f64) as usize;
 
                         if y < CHAR_MAP_SIZE {
                             matrix.map[y][x] = '|';
@@ -54,7 +54,7 @@ impl PrintDriver for ConsolePrint {
 
                 if y < CHAR_MAP_SIZE {
                     while distance < road_length {
-                        let x = (cc_x + distance as f32) as usize;
+                        let x = (cc_x + distance as f64) as usize;
 
                         if x < CHAR_MAP_SIZE {
                             matrix.map[y][x] = '-';
