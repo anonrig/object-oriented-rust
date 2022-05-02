@@ -1,4 +1,3 @@
-use crate::traits::DynamicRoadItemTraits;
 use derivative::Derivative;
 
 static ACC_RATE: f32 = 3.5;
@@ -34,8 +33,6 @@ pub struct Car {
     #[derivative(Default(value = "0.0"))]
     pub desired_speed: f32,
 }
-
-impl DynamicRoadItemTraits for Car {}
 
 impl VehicleTraits for Car {
     fn get_type(&self) -> &str {
@@ -81,8 +78,6 @@ pub struct Truck {
     #[derivative(Default(value = "0"))]
     pub load_weight: u32,
 }
-
-impl DynamicRoadItemTraits for Truck {}
 
 impl VehicleTraits for Truck {
     fn get_type(&self) -> &str {

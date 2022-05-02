@@ -1,4 +1,5 @@
 use crate::sui::{CharMatrix, PrintDriver};
+use crate::traits::RoadItemTraits;
 use serde::{Deserialize, Serialize};
 use serde_repr::{Deserialize_repr, Serialize_repr};
 
@@ -13,7 +14,7 @@ pub enum Heading {
     West = 3,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Serialize, Deserialize)]
 pub struct Road {
     #[serde(rename = "Name")]
     name: String,
@@ -25,6 +26,8 @@ pub struct Road {
     y_location: f32,
     #[serde(rename = "Heading")]
     heading: Heading,
+    #[serde(rename = "RoadItems")]
+    road_items: Vec<Box<dyn RoadItemTraits>>,
 }
 
 impl Road {
@@ -41,6 +44,7 @@ impl Road {
             x_location,
             y_location,
             heading,
+            road_items: vec![],
         };
 
         unsafe {

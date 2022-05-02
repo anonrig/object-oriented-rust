@@ -1,16 +1,63 @@
-use crate::traits::{DynamicRoadItemTraits, StaticRoadItemTraits};
+use crate::traits::RoadItemTraits;
+use serde::{Deserialize, Serialize};
+use std::any::Any;
 
-pub struct StopSign {}
-impl StaticRoadItemTraits for StopSign {}
+#[derive(Serialize, Deserialize)]
+pub struct StopSign {
+    mile_marker: f64,
+}
 
-pub struct IntersectionSign {}
-impl StaticRoadItemTraits for IntersectionSign {}
+impl RoadItemTraits for StopSign {
+    fn get_mile_marker(&self) -> f64 {
+        self.mile_marker
+    }
 
-pub struct SpeedLimitSign {}
-impl StaticRoadItemTraits for SpeedLimitSign {}
+    fn set_mile_marker(&mut self, distance: f64) {
+        self.mile_marker = distance
+    }
 
-pub struct YieldSign {}
-impl StaticRoadItemTraits for YieldSign {}
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
+}
 
-pub struct TrafficLight {}
-impl DynamicRoadItemTraits for TrafficLight {}
+impl StopSign {
+    pub fn new(distance: f64) -> StopSign {
+        StopSign {
+            mile_marker: distance,
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct SpeedLimitSign {
+    mile_marker: f64,
+    speed_limit: f64,
+}
+
+impl RoadItemTraits for SpeedLimitSign {
+    fn get_mile_marker(&self) -> f64 {
+        self.mile_marker
+    }
+
+    fn set_mile_marker(&mut self, distance: f64) {
+        self.mile_marker = distance
+    }
+
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
+}
+
+impl SpeedLimitSign {
+    pub fn new(posted_speed: f64, distance: f64) -> SpeedLimitSign {
+        SpeedLimitSign {
+            mile_marker: distance,
+            speed_limit: posted_speed,
+        }
+    }
+
+    pub fn get_speed_limit(&self) -> f64 {
+        self.speed_limit
+    }
+}
