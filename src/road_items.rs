@@ -1,5 +1,5 @@
 use crate::road_items::TrafficLightColor::Green;
-use crate::traits::RoadItemTraits;
+use crate::traits::{DynamicRoadItemTraits, RoadItemTraits};
 use serde::{Deserialize, Serialize};
 use serde_repr::{Deserialize_repr, Serialize_repr};
 use std::any::Any;
@@ -104,7 +104,7 @@ impl RoadItemTraits for TrafficLight {
 }
 
 impl TrafficLight {
-    fn new(
+    pub fn new(
         red_time: u32,
         yellow_time: u32,
         green_time: u32,
@@ -120,7 +120,9 @@ impl TrafficLight {
             mile_marker,
         }
     }
+}
 
+impl DynamicRoadItemTraits for TrafficLight {
     fn update(&mut self, seconds: u32) {
         self.time_on += seconds;
 

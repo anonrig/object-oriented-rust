@@ -1,6 +1,7 @@
 use crate::constants::{METERS_TO_KM, METERS_TO_MILES, MPS_TO_KPH, MPS_TO_MPH};
 use crate::road::{Heading, Road};
 use crate::road_items::{SpeedLimitSign, StopSign};
+use crate::traits::{DynamicRoadItemTraits, RoadItemTraits};
 use crate::VehicleTraits;
 
 pub trait GUITraits {
@@ -26,8 +27,12 @@ pub trait SimOutputTraits {
     fn get_speed(&self, vehicle: &dyn VehicleTraits) -> f64;
 }
 
-pub struct MetricGUI {}
-pub struct ImperialGUI {}
+pub struct MetricGUI {
+    pub road_items: Vec<Box<dyn DynamicRoadItemTraits>>,
+}
+pub struct ImperialGUI {
+    pub road_items: Vec<Box<dyn DynamicRoadItemTraits>>,
+}
 
 impl GUITraits for MetricGUI {
     fn create_road(

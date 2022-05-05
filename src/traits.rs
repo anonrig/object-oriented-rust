@@ -3,6 +3,10 @@ use serde::ser::SerializeMap;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use std::any::Any;
 
+pub trait DynamicRoadItemTraits {
+    fn update(&mut self, seconds: u32);
+}
+
 pub trait RoadItemTraits {
     fn get_mile_marker(&self) -> f64;
     fn set_mile_marker(&mut self, distance: f64);
